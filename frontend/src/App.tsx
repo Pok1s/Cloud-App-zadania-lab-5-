@@ -9,7 +9,7 @@ type TaskReadDto = {
   createdAt: string
 }
 
-const api = import.meta.env.VITE_API_URL ?? 'http://localhost:5030'
+const api = import.meta.env.VITE_API_URL ?? 'http://localhost:5050'
 
 function App() {
   const [items, setItems] = useState<TaskReadDto[]>([])
@@ -19,13 +19,17 @@ function App() {
 
   async function load() {
     setErr(null)
-    const r = await fetch(`${api}/api/Tasks`)
-    if (!r.ok) {
-      setErr('nie udało się wczytać')
-      return
+    try {
+      const r = await fetch(`${api}/api/Tasks`)
+      if (!r.ok) {
+        setErr('nie udało się wczytać')
+        return
+      }
+      const data = await r.json()
+      setItems(data)
+    } catch {
+      setErr('brak połączenia z API — sprawdź docker compose i VITE_API_URL')
     }
-    const data = await r.json()
-    setItems(data)
   }
 
   useEffect(() => {
@@ -35,18 +39,22 @@ function App() {
   async function add(e: React.FormEvent) {
     e.preventDefault()
     setErr(null)
-    const r = await fetch(`${api}/api/Tasks`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title, description: description || null }),
-    })
-    if (!r.ok) {
-      setErr('błąd zapisu')
-      return
+    try {
+      const r = await fetch(`${api}/api/Tasks`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description: description || null }),
+      })
+      if (!r.ok) {
+        setErr('błąd zapisu')
+        return
+      }
+      setTitle('')
+      setDescription('')
+      await load()
+    } catch {
+      setErr('brak połączenia z API — sprawdź docker compose i VITE_API_URL')
     }
-    setTitle('')
-    setDescription('')
-    await load()
   }
 
   return (

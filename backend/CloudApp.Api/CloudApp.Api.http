@@ -1,0 +1,21 @@
+@CloudApp.Api_HostAddress = http://localhost:5030
+
+GET {{CloudApp.Api_HostAddress}}/api/Tasks
+Accept: application/json
+
+###
+
+GET {{CloudApp.Api_HostAddress}}/api/Tasks/1
+Accept: application/json
+
+###
+
+POST {{CloudApp.Api_HostAddress}}/api/Tasks
+Content-Type: application/json
+
+{
+  "title": "test",
+  "description": "opis"
+}
+
+###

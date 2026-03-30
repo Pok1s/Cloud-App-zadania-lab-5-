@@ -19,7 +19,7 @@ https://github.com/Pok1s/Cloud-App-zadania-lab-5-/blob/main/README.md
 docker compose up -d --build
 ```
 
-- API (Swagger): `http://localhost:5000/swagger`
+- API (Swagger): `http://localhost:5050/swagger` 
 - PostgreSQL: port `5432`
 - Dane bazy są mapowane na katalog **`pgdata/`** w folderze projektu (bind mount). Po **`docker compose down -v`** dane **nie znikają** — folder `pgdata/` zostaje na dysku (w przeciwieństwie do named volume, który `-v` usuwa).
 
@@ -29,7 +29,7 @@ docker compose up -d --build
 2. Backend: `cd backend/CloudApp.Api && dotnet run` (domyślnie `http://localhost:5030`)
 3. Frontend: `cd frontend && npm install && npm run dev` (`http://localhost:5173`)
 
-Przy API z Dockera ustaw w `frontend/.env`: `VITE_API_URL=http://localhost:5000`.
+Przy API z Dockera ustaw w `frontend/.env`: `VITE_API_URL=http://localhost:5050`. Przy lokalnym `dotnet run` (port 5030): `VITE_API_URL=http://localhost:5030`.
 
 ## API (przykłady)
 
